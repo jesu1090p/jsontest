@@ -71,7 +71,7 @@ formulario.addEventListener('submit', function(evento) {
 function registrar() {
     let nombre = document.getElementById('nombre').value;
     let apellidos = document.getElementById('apellidos').value;
-    let cedula = parseInt(document.getElementById('cedula').value);
+    let cedula = document.getElementById('cedula').value;
     let edad = parseInt(document.getElementById('edad').value);
     let email = document.getElementById('email').value;
     let direccion = document.getElementById('direccion').value;
