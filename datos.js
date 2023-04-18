@@ -1,38 +1,4 @@
-let registroUsuarios = [
-    {
-        "id": 1,
-        "nombre": "Juan",
-        "apellidos": "Soto Ortega",
-        "cedula": 1103216800,
-        "edad": 26,
-        "email": "jsoto@test.com",
-        "direccion": "Calle 50A",
-        "ciudad": "Barranquilla",
-        "departamento": "Atlantico"
-    },
-    {
-        "id": 2,
-        "nombre": "Jose",
-        "apellidos": "Arrieta",
-        "cedula": 1143444616,
-        "edad": 29,
-        "email": "jarrieta@test.com",
-        "direccion": "Diagonal 65 No. 28-37",
-        "ciudad": "Ponedera",
-        "departamento": "Atlantico"
-    },
-    {
-        "id": 3,
-        "nombre": "Maria",
-        "apellidos": "Gonzalez",
-        "cedula": 1044657689,
-        "edad": 31,
-        "email": "mgonzalez@test.com",
-        "direccion": "Calle 47 44-50",
-        "ciudad": "Barranquilla",
-        "departamento": "Atlantico"
-    }
-];
+let registroUsuarios = [];
 
 let formulario = document.getElementById('formulario');
 
@@ -52,7 +18,6 @@ formulario.addEventListener('submit', function(evento) {
     };
 
     let registrosJSON = localStorage.getItem('registroUsuarios');
-    let registroUsuarios = [];
 
     if (registrosJSON) {
         registroUsuarios = JSON.parse(registrosJSON);
@@ -63,10 +28,10 @@ formulario.addEventListener('submit', function(evento) {
     alert('Registro guardado exitosamente');
 });
 
-    function validarEmail(email) {
-        const expresionRegular = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-        return expresionRegular.test(email);
-    }
+function validarEmail(email) {
+    const expresionRegular = /^\S+@\S+\.\S+$/;
+    return expresionRegular.test(email);
+}
 
 function registrar() {
     let nombre = document.getElementById('nombre').value;
@@ -78,8 +43,8 @@ function registrar() {
     let ciudad = document.getElementById('ciudad').value;
     let departamento = document.getElementById('departamento').value;
 
-    // Validar que los campos no estén vacíos ni sean nulos
-    if (!nombre || !apellidos || !cedula || !edad || !email || !direccion || !ciudad || !cedula && null) {
+    // Validar que los campos no estén vacíos
+    if (!nombre || !apellidos || !cedula || !edad || !email || !direccion || !ciudad || !departamento) {
         alert("Por favor, complete todos los campos requeridos del formulario.");
         return;
     }
