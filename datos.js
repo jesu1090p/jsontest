@@ -105,6 +105,14 @@ function registrar() {
         registros = [];
     }
 
+    let correoDuplicado = registros.some(function(registro) {
+        return registro.email === email;
+      });
+    
+      if (correoDuplicado) {
+        alert("El correo electrónico ingresado ya existe. Por favor verifique");
+        return;
+      }
     // Obtener el último ID guardado
     let ultimoID = 0;
     if (registros && registros.length > 0) {
