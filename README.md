@@ -14,5 +14,5 @@ Se creó un boton para guardar y otro para listar los registros
 El campo ID va incrementando en 1 con cada registro añadido.
 
 # Enlaces 
-URL de visualización de la página: https://jesu1090p.github.io/jsontest/)  
+URL de visualización de la página: https://jesu1090p.github.io/jsontest  
 URL del código de la página: https://github.com/jesu1090p/jsontest
