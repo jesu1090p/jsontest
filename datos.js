@@ -79,7 +79,7 @@ function registrar() {
     let departamento = document.getElementById('departamento').value;
 
     // Validar que los campos no estén vacíos ni sean nulos
-    if (nombre === "" || apellidos === "" || cedula === "" || edad === "" || email === "" || direccion === "" || ciudad === "" || cedula === null) {
+    if (!nombre || !apellidos || !cedula || !edad || !email || !direccion || !ciudad || !cedula & null) {
         alert("Por favor, complete todos los campos requeridos del formulario.");
         return;
     }
