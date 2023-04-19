@@ -1,4 +1,4 @@
-const registros = [
+let preRegistros = [
     {
         "id": 1,
         "nombre": "Juan",
@@ -51,7 +51,7 @@ formulario.addEventListener('submit', function(evento) {
         departamento: document.getElementById('departamento').value
     };
 
-    let registrosJSON = localStorage.getItem('registros');
+    let registrosJSON = localStorage.getItem('preRegistros');
     let registros = [];
 
     if (registrosJSON) {
@@ -59,7 +59,7 @@ formulario.addEventListener('submit', function(evento) {
     }
 
     registros.push(datos);
-    localStorage.setItem('registros', JSON.stringify(registros));
+    localStorage.setItem('preRegistros', JSON.stringify(registros));
     alert('Registro guardado exitosamente');
 });
 
@@ -96,30 +96,23 @@ function registrar() {
         return;
     }
 
-    let registrosJSON = localStorage.getItem('registros');
-    let registros = [];
+    let registrosJSON = localStorage.getItem('preRegistros');
 
     if (registrosJSON) {
-        registros = JSON.parse(registrosJSON);
-    } else {
-        registroUsuarios = [];
+        preRegistros = JSON.parse(registrosJSON);
     }
 
-    let correoDuplicado = registros.some(function(registro) {
+    let correoDuplicado = preRegistros.some(function(registro) {
         return registro.email === email;
-      });
-    
-      if (correoDuplicado) {
+    });
+
+    if (correoDuplicado) {
         alert("El correo electrónico ingresado ya existe. Por favor verifique");
         return;
-      }
-
-    // Obtener el último ID guardado
-    let ultimoID = 0;
-    if (registros && registros.length > 0) {
-    ultimoID = registros[registros.length - 1].id;
     }
 
+    let ultimoID = 3;
+    
     let datos = {
         id: ultimoID + 1, //Incrementamos el campo ID
         nombre: nombre,
@@ -133,14 +126,14 @@ function registrar() {
     };
 
     // Validar que la cédula no esté duplicada
-    if (registros.some(registro => registro.cedula === cedula)) {
+    if (preRegistros.some(registro => registro.cedula === cedula)) {
         alert(`El usuarios con cedula No. ${cedula} ya esta registrado.\nPor favor verifique.`);
         return;
     }
 
-    registros.push(datos);
-    localStorage.setItem('registros', JSON.stringify(registros));
-    alert('Registro guardado correctamente');
+    preRegistros.push(datos);
+    localStorage.setItem('preRegistros', JSON.stringify(preRegistros));
+    alert('Registro guardado con exito.');
 
     // Limpiar los campos del formulario
     document.getElementById('nombre').value = "";
@@ -155,16 +148,19 @@ function registrar() {
 
     function mostrarRegistros() {
         //llamamos los datos predefinidos desde el local storage
-        let registrosJSON = localStorage.getItem('registros');
-        let registros = JSON.parse(registrosJSON);
+        //let registros = [];
+        let registrosJSON = localStorage.getItem('preRegistros');
+        if(registrosJSON){
+            let preRegistros = JSON.parse(registrosJSON)
+        }
 
         let tabla = document.createElement('table');
         tabla.className = "table table-striped table-hover";
         let encabezado = tabla.insertRow();
         encabezado.innerHTML = '<th>ID</th><th>Nombre</th><th>Apellidos</th><th>Cédula</th><th>Edad</th><th>Email</th><th>Dirección</th><th>Ciudad</th><th>Departamento</th>';
 
-        for (let i = 0; i < registros.length; i++) {
-        let registro = registros[i];
+        for (let i = 0; i < preRegistros.length; i++) {
+        let registro = preRegistros[i];
         let fila = tabla.insertRow();
         fila.innerHTML = `<td>${registro.id}</td><td>${registro.nombre}</td><td>${registro.apellidos}</td><td>${registro.cedula}</td><td>${registro.edad}</td><td>${registro.email}</td><td>${registro.direccion}</td><td>${registro.ciudad}</td><td>${registro.departamento}</td>`;
     }
