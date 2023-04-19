@@ -1,4 +1,38 @@
-let registroUsuarios = [];
+const registros = [
+    {
+        "id": 1,
+        "nombre": "Juan",
+        "apellidos": "Soto Ortega",
+        "cedula": "1103216800",
+        "edad": "26",
+        "email": "jsoto@test.com",
+        "direccion": "Calle 50A",
+        "ciudad": "Barranquilla",
+        "departamento": "Atlantico"
+    },
+    {
+        "id": 2,
+        "nombre": "Jose",
+        "apellidos": "Arrieta",
+        "cedula": "1143444616",
+        "edad": "29",
+        "email": "jarrieta@test.com",
+        "direccion": "Diagonal 65 No. 28-37",
+        "ciudad": "Ponedera",
+        "departamento": "Atlantico"
+    },
+    {
+        "id": 3,
+        "nombre": "Maria",
+        "apellidos": "Gonzalez",
+        "cedula": "1044657689",
+        "edad": "31",
+        "email": "mgonzalez@test.com",
+        "direccion": "Calle 47 44-50",
+        "ciudad": "Barranquilla",
+        "departamento": "Atlantico"
+    }
+];
 
 let formulario = document.getElementById('formulario');
 
@@ -17,21 +51,22 @@ formulario.addEventListener('submit', function(evento) {
         departamento: document.getElementById('departamento').value
     };
 
-    let registrosJSON = localStorage.getItem('registroUsuarios');
+    let registrosJSON = localStorage.getItem('registros');
+    let registros = [];
 
     if (registrosJSON) {
-        registroUsuarios = JSON.parse(registrosJSON);
+        registros = JSON.parse(registrosJSON);
     }
 
-    registroUsuarios.push(datos);
-    localStorage.setItem('registroUsuarios', JSON.stringify(registroUsuarios));
+    registros.push(datos);
+    localStorage.setItem('registros', JSON.stringify(registros));
     alert('Registro guardado exitosamente');
 });
 
-function validarEmail(email) {
-    const expresionRegular = /^\S+@\S+\.\S+$/;
-    return expresionRegular.test(email);
-}
+    function validarEmail(email) {
+        const expresionRegular = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+        return expresionRegular.test(email);
+    }
 
 function registrar() {
     let nombre = document.getElementById('nombre').value;
@@ -43,8 +78,8 @@ function registrar() {
     let ciudad = document.getElementById('ciudad').value;
     let departamento = document.getElementById('departamento').value;
 
-    // Validar que los campos no estén vacíos
-    if (!nombre || !apellidos || !cedula || !edad || !email || !direccion || !ciudad || !departamento) {
+    // Validar que los campos no estén vacíos ni sean nulos
+    if (nombre === "" || apellidos === "" || cedula === "" || edad === "" || email === "" || direccion === "" || ciudad === "") {
         alert("Por favor, complete todos los campos requeridos del formulario.");
         return;
     }
@@ -61,16 +96,16 @@ function registrar() {
         return;
     }
 
-    let registrosJSON = localStorage.getItem('registroUsuarios');
-    let registroUsuarios = [];
+    let registrosJSON = localStorage.getItem('registros');
+    let registros = [];
 
     if (registrosJSON) {
-        registroUsuarios = JSON.parse(registrosJSON);
+        registros = JSON.parse(registrosJSON);
     } else {
         registroUsuarios = [];
     }
 
-    let correoDuplicado = registroUsuarios.some(function(registro) {
+    let correoDuplicado = registros.some(function(registro) {
         return registro.email === email;
       });
     
@@ -78,10 +113,11 @@ function registrar() {
         alert("El correo electrónico ingresado ya existe. Por favor verifique");
         return;
       }
+
     // Obtener el último ID guardado
     let ultimoID = 0;
-    if (registroUsuarios && registroUsuarios.length > 0) {
-    ultimoID = registroUsuarios[registroUsuarios.length - 1].id;
+    if (registros && registros.length > 0) {
+    ultimoID = registros[registros.length - 1].id;
     }
 
     let datos = {
@@ -97,13 +133,13 @@ function registrar() {
     };
 
     // Validar que la cédula no esté duplicada
-    if (registroUsuarios.some(registroUsuarios => registroUsuarios.cedula === cedula)) {
-        alert('Ya existe un registro con este numero de cédula');
+    if (registros.some(registro => registro.cedula === cedula)) {
+        alert(`El usuarios con cedula No. ${cedula} ya esta registrado.\nPor favor verifique.`);
         return;
-  }
+    }
 
-    registroUsuarios.push(datos);
-    localStorage.setItem('registroUsuarios', JSON.stringify(registroUsuarios));
+    registros.push(datos);
+    localStorage.setItem('registros', JSON.stringify(registros));
     alert('Registro guardado correctamente');
 
     // Limpiar los campos del formulario
@@ -115,22 +151,22 @@ function registrar() {
     document.getElementById('direccion').value = "";
     document.getElementById('ciudad').value = "";
     document.getElementById('departamento').value = "";
-
 }
 
     function mostrarRegistros() {
-        let registrosJSON = localStorage.getItem('registroUsuarios');
-        let registroUsuarios = JSON.parse(registrosJSON);
+        //llamamos los datos predefinidos desde el local storage
+        let registrosJSON = localStorage.getItem('registros');
+        let registros = JSON.parse(registrosJSON);
 
         let tabla = document.createElement('table');
         tabla.className = "table table-striped table-hover";
         let encabezado = tabla.insertRow();
         encabezado.innerHTML = '<th>ID</th><th>Nombre</th><th>Apellidos</th><th>Cédula</th><th>Edad</th><th>Email</th><th>Dirección</th><th>Ciudad</th><th>Departamento</th>';
 
-        for (let i = 0; i < registroUsuarios.length; i++) {
-        let registro = registroUsuarios[i];
+        for (let i = 0; i < registros.length; i++) {
+        let registro = registros[i];
         let fila = tabla.insertRow();
-        fila.innerHTML = `<td>${registroUsuarios.id}</td><td>${registroUsuarios.nombre}</td><td>${registroUsuarios.apellidos}</td><td>${registroUsuarios.cedula}</td><td>${registroUsuarios.edad}</td><td>${registroUsuarios.email}</td><td>${registroUsuarios.direccion}</td><td>${registroUsuarios.ciudad}</td><td>${registroUsuarios.departamento}</td>`;
+        fila.innerHTML = `<td>${registro.id}</td><td>${registro.nombre}</td><td>${registro.apellidos}</td><td>${registro.cedula}</td><td>${registro.edad}</td><td>${registro.email}</td><td>${registro.direccion}</td><td>${registro.ciudad}</td><td>${registro.departamento}</td>`;
     }
 
     let contenedorTabla = document.getElementById('tablaUsuarios');
